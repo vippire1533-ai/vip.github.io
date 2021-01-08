@@ -1,0 +1,41 @@
+import pandas as pd
+from pandas import DataFrame
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
+import matplotlib.pyplot as plt
+from sklearn import linear_model
+import statsmodels.api as sm
+
+
+col_names=['Year','Month','Passengers']
+#load dataset
+data=pd.read_csv("E:\\air.csv",error_bad_lines=False,header=0 , names=col_names)
+data.describe() 
+
+feature_clos= ['Year','Month']
+X=data[feature_clos]
+y=data.Passengers
+
+print(data[feature_clos])
+print(data.Passengers)
+
+regr = linear_model.LinearRegression()
+regr.fit(X, y)
+
+print('Intercept: \n', regr.intercept_)
+print('Coefficients: \n', regr.coef_)
+
+
+# dự đoán with sklearn
+New_Year = 1949
+New_Month = 1
+print ('Predicted AirPassengers: \n', regr.predict([[New_Year ,New_Month]]))
+
+# với số liệu thống kê
+X = sm.add_constant(X) # thêm một hằng số
+model = sm.OLS(y, X).fit()
+predictions = model.predict(X) 
+ 
+print_model = model.summary()
+print(print_model)
